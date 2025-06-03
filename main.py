@@ -17,7 +17,7 @@ music_embed = '''
 '''
 
 # ---------- GLOBAL STYLE & SCRIPT ----------
-base_style_and_script = f'''
+base_style_and_script = '''
     <style>
         @keyframes fadeOut {{
             from {{ opacity: 1; transform: rotateY(0deg); }}
@@ -83,7 +83,25 @@ base_style_and_script = f'''
             const flip = document.getElementById("flipSound");
             const lastTime = sessionStorage.getItem("audioTime");
             if (lastTime !== null) audio.currentTime = parseFloat(lastTime);
-            audio.play();
+            audio.play().catch(() => {
+            const btn = document.createElement("button");
+            btn.innerText = "play music disini ya be";
+            btn.style.position = "fixed";
+            btn.style.top = "20px";
+            btn.style.right = "20px";
+            btn.style.zIndex = "9999";
+            btn.style.padding = "10px";
+            btn.style.fontSize = "16px";
+            btn.style.borderRadius = "10px";
+            btn.style.background = "white";
+            btn.style.color = "#333";
+            btn.onclick = () => {
+        audio.play();
+        btn.remove();
+    };
+    document.body.appendChild(btn);
+});
+
             setInterval(() => sessionStorage.setItem("audioTime", audio.currentTime), 1000);
 
             document.querySelectorAll(".nav-form").forEach(form => {{
