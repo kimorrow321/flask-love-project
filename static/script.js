@@ -1,4 +1,3 @@
-
 window.addEventListener('DOMContentLoaded', () => {
     const audio = document.getElementById("bgAudio");
     const flip = document.getElementById("flipSound");
@@ -7,7 +6,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     audio.play().catch(() => {
         const btn = document.createElement("button");
-        btn.innerText = "Putar Musik 🎵";
+        btn.innerText = "play musik nya disini ya be 🎵";
         btn.style.position = "fixed";
         btn.style.top = "20px";
         btn.style.right = "20px";
