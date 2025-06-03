@@ -9,13 +9,6 @@ page_turn_sound = '''
         <source src="/static/page-turn.mp3" type="audio/mpeg">
     </audio>
 '''
-
-music_embed = '''
-    <audio id="bgAudio" autoplay loop>
-        <source src="/static/too_good.mp3" type="audio/mpeg">
-    </audio>
-'''
-
 # ---------- GLOBAL STYLE & SCRIPT ----------
 base_style_and_script = '''
     <style>
@@ -77,6 +70,10 @@ base_style_and_script = '''
         }
     </style>
 
+    <audio id="bgAudio" autoplay loop>
+        <source src="/static/too_good.mp3" type="audio/mpeg">
+    </audio>
+
     <script src="/static/script.js"></script>
 '''
 
@@ -98,7 +95,6 @@ def render_page(content, current_page, total_pages=9):
             {base_style_and_script}
         </head>
         <body>
-            {music_embed}
             {page_turn_sound}
             {prev_btn}
             {next_btn}
@@ -288,7 +284,6 @@ def page9():
             {base_style_and_script}
         </head>
         <body>
-            {music_embed}
             {page_turn_sound}
             <div class="closing-box">
                 <p>
@@ -314,7 +309,7 @@ def lihat_pesan_rahasia():
     return render_template_string(f'''
         <html>
         <head>{base_style_and_script}</head>
-        <body>{music_embed}{result}</body>
+        <body>{result}</body>
         </html>
     ''')
 
