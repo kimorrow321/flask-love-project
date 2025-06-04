@@ -70,9 +70,24 @@ base_style_and_script = '''
         }
     </style>
 
-    <audio id="bgAudio" autoplay loop>
-        <source src="/static/too_good.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="bgAudio" loop>
+    <source src="/static/too_good.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    // Agar lagu tetap main saat pindah halaman
+    window.addEventListener("DOMContentLoaded", function() {
+        const bgAudio = document.getElementById("bgAudio");
+        if (sessionStorage.getItem("musicStarted") === "true") {
+            bgAudio.play().catch(() => {});
+        }
+
+        window.playMusic = function() {
+            bgAudio.play();
+            sessionStorage.setItem("musicStarted", "true");
+        };
+    });
+</script>
 
     <script src="/static/script.js"></script>
 '''
@@ -91,7 +106,7 @@ def render_page(content, current_page, total_pages=9):
     return render_template_string(f'''
         <html>
         <head>
-            <title>Page {current_page}</title>
+            <title>Page{current_page}</title>
             {base_style_and_script}
         </head>
         <body>
@@ -110,53 +125,67 @@ def page1():
     return render_page('''
         <h1>hai be!</h1>
         <p style="max-width:500px; margin:auto;">
-            <b>sebelum kamu mulai scroll, aku mau kasih tau dikit <br><br>
-            di halaman ini ada lagu yang aku pasang buat nemenin kamu baca,
-            jadi jangan lupa nyalain volume kamu yaa <br><br>
+            <b>sebelum kamu mulai scroll, aku mau kasih tau dikit</b><br><br>
+            di halaman ini ada lagu yang aku pasang buat nemenin kamu baca,<br>
+            jangan lupa untuk kamu klik dulu lagunya yaa 🔉<br><br>
+
+            play music 🎵<br><br>
+            <button onclick="playMusic()" style="
+                padding: 10px 20px;
+                font-size: 16px;
+                background-color: #ffffffcc;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                color: #333;
+                box-shadow: 1px 1px 8px rgba(0,0,0,0.2);">
+                ▶️ Play Lagu: Too Good To Say Goodbye
+            </button>
+
+            <br><br>
             buat navigasi, kamu tinggal klik tombol <b>panah kanan</b> di sebelah kanan layar buat lanjut,<br>
             dan <b>panah kiri</b> kalau kamu mau balik ke halaman sebelumnya ⬅️➡️<br><br>
             selamat menikmati be!
         </p>
     ''', 1)
 
-
 @app.route("/page2")
 def page2():
     return render_page('''
-        <p><b>sebelumnya, akup buat project ini semingguan<br>
-        dan dari project yang aku buat ini buat kamu, dari yang banyak error nya, tiba tiba jadi hitam selayar,
-        lagu nya ga muncul kalo di play si safari dan segala macem nya.<br>
-        aku benerin semuanya, alhamdulillahnya di hari rabu project ini bisa aku jalanin<br>
-        dan disini aku mau ngutarain perasaan ku dan kamu juga tapi lewat yang aku kerjakan ini,
-        <br>kesannya biar ga boring jadinya aku luangin waktuku buat bikin ini deh<br>
-        cuman maaf ya be kalo jelek, im tryinggg my best to make it..
-        <br>tadi tu ya sebenernya program nya uda jadi tapi tiba tiba aku revisi ulang <br>karena background sebelumnya nya
-        yang aku pilih dinosaurus wkwkw <br><b>dan akhirnya, aku ganti sincan agar biar sesuai kesukaanmu!</br>
-        <b>hope u like it!<br>
+        <p style="max-width:600px; margin:auto;">
+            <b>sebelumnya, aku buat project ini semingguan</b><br><br>
+            dari banyak error, layar tiba-tiba hitam, lagu yang ga muncul di Safari, dan segala macemnya<br>
+            aku benerin semuanya dan alhamdulillah di hari Rabu project ini bisa jalan<br><br>
+            ini tempatku ngungkapin isi hati — biar kamu ga bosan, aku luangin waktuku buat bikin ini <br><br>
+            maaf ya be kalo jelek, aku udah coba semaksimal mungkin..<br><br>
+            sebenernya program ini udah jadi, tapi aku revisi ulang karena sebelumnya background-nya dinosaurus wkwk 😅<br>
+            akhirnya aku ganti jadi Sincan — biar sesuai kesukaanmu <br><br>
+            <b>hope u like it!</b>
+        </p>
     ''', 2)
 
 @app.route("/page3")
 def page3():
     return render_page('''
         <img src="/static/something.jpg" class="centered-img">
-        <p>
-        <b>kamu masi inget ga ini pap kamu yang kamu kasih ke aku tanggal 1 maret,<br>
-        kamu kasi pap aku eskrim dan aku notice trus simpen baik baik<br><br>
-        pas kita ketemu kemarin day 1 aku beliin kamu eskrim ini tau 2,<br>
-        sayang ga kamu makan ya karena uda mencair duluan wkwkwk gapapa </p>
+        <p style="max-width:600px; margin:auto;">
+            <b>kamu masih inget ga ini pap yang kamu kirim ke aku tanggal 1 Maret?</b><br><br>
+            kamu pap es krim, dan aku notice sampe aku simpen baik-baik <br><br>
+            pas kita ketemu Day 1 aku beliin es krim itu ke kamu (dua malah!) 🍦<br>
+            sayangnya kamu ga makan karena keburu mencair, gapapa kok!
+        </p>
     ''', 3)
 
 @app.route("/page4")
 def page4():
     return render_page('''
         <img src="/static/try.png" class="centered-img">
-        <p>
-        <b>be tau ga setiap aku mungkin ada salah atau kita misscom,<br>
-        aku selalu catet itu agar aku bisa inget,<br>
-        terus belajar jadi lebih baik dan berusaha sebaik mungkin<br>
-        untuk tidak mengulangi hal tersebut.<br><br>
-        aku minta maaf atas kondisi yang terjadi sama kita sekarang,<br>maaf aku masih banyak salah ke kamu dan
-        kita jadi ga searah sekarang
+        <p style="max-width:600px; margin:auto;">
+            <b>be tau ga...</b><br>
+            setiap kita salah paham atau ada yang bikin kamu sedih, aku selalu catet itu <br>
+            biar aku bisa belajar, inget, dan ga ngulangin kesalahan yang sama<br><br>
+            aku minta maaf atas semua kondisi yang bikin kita sekarang ga sejalan<br>
+            maaf aku masih banyak salahnya ke kamu 🥺
         </p>
     ''', 4)
 
@@ -164,39 +193,31 @@ def page4():
 def page5():
     return render_page('''
         <img src="/static/dongeng.png" class="centered-img">
-        <p>
-        <b>sekarang hal dongengin kamu adalah hal yang aku tungguin tau be,<br>
-        tapi ga lupa tiap aku mau dongengin kamu<br>
-        selalu aku catet biar ga kelamaan kamu nunggu nya hehe..
+        <p style="max-width:600px; margin:auto;">
+            hal yang paling aku tunggu tiap malam itu... <b>dongengin kamu</b> 💬<br><br>
+            tapi tiap kali aku mau dongeng, aku selalu catet biar ga kelamaan kamu nungguin aku 
         </p>
     ''', 5)
 
 @app.route("/page6")
 def page6():
     return render_page('''
-        <p style="max-width:600px; line-height:1.6;">
-            <b>aku tau kok be kondisi kita sekarang kita lagi ga baik baik saja,<br>
-            tapi sebelum aku nyerah, aku masih pingin tau<br>
-            <b>masih bisa ga ya kita balik seperti dulu.<br><br>
-            tukar cerita setiap malam setelah apa yang kita lewatin hari itu,<br>
-            kita becanda dengan respon natural yang biasanya, jujur aku kangen hal itu<br>
-            aku tahu kondisi LDR ini bikin kamu bosan<br>
-            dan aku sebenernya try kok be buat ga gitu gitu juga.<br><br>
-            aku juga mau coba hal baru dan seru bareng kamu<br>
-            tapi, aku juga ga bisa jalan sendiri..</b><br>
-            <b>aku cuma butuh kamu buat ikut juga...<br>
-            kita pernah sama sama mau coba menjadi better satu sama lain kan?<br>
-            kamu bisa ga biasakan setiap kita ada masalah di hari itu, kita obrolin langsung,
-            karena tidur dalam keadaan heavy hearts cause problem yang belum selesai<br>
-            itu ga enak banget be, aku beberapa kali ngerasain itu sampai hambar<br>
-            <br>be, look at me please on last i try for us. aku masih mau ngelangkah bareng sama kamu, 
-            ngerasain jatuh bangun sama kamu<br>
-            <b>aku masih mau belajar banyak menjadi pria yang baik buat kamu<br>
-            masih banyak juga plan kota kota yang harus kita taklukan berdua<br>
-            tapi.. jika setelah kamu membaca semua halaman yang aku buat ini dan tidak ada yang berubah dari perasaanmu sama sekali<br>
-            tak apa, maybe i deserve all the pain and disappointment rn, i mean it is my fault, i should've done better.<br>
-            gapapa aku ikhlas kita uda sejauh ini, kita berdua uda belajar sabar<br>
-            kita keren ya kalo diliat liat.. <br>
+        <p style="max-width:600px; margin:auto; line-height:1.6;">
+            aku tau kok, kondisi kita sekarang lagi ga baik-baik aja...<br><br>
+            tapi sebelum aku nyerah, aku mau tau...<br>
+            <b>masih bisa ga ya kita balik seperti dulu?</b><br><br>
+            cerita tiap malam, saling becanda dengan spontan, aku kangen banget itu <br>
+            aku tau LDR bikin kamu bosan, dan aku ngerti kok. Tapi aku juga udah coba...<br><br>
+            aku cuma butuh kamu ikut coba bareng aku <br><br>
+            kita pernah janji buat belajar jadi lebih baik satu sama lain kan?<br>
+            yuk biasain ngobrolin masalah hari itu, jangan tidur dalam keadaan berat hati...<br><br>
+            be, lihat aku ya... ini mungkin langkah terakhir aku buat kita<br>
+            aku masih mau bareng kamu, jatuh bangun sama kamu <br>
+            <b>aku masih mau belajar jadi pria yang baik buat kamu</b><br>
+            masih banyak kota-kota yang harus kita taklukan bareng...<br><br>
+            tapi kalau setelah baca semua ini kamu tetep ga ngerasa apa-apa...<br>
+            gapapa, mungkin aku pantas sakit dan kecewa sekarang.<br><br>
+            kita udah belajar sabar dan kuat, kita keren banget ya kalo diliat-liat...
         </p>
     ''', 6)
 
@@ -205,10 +226,9 @@ def page7():
     if request.method == "POST":
         message = request.form.get("feeling")
         if message:
-            feedback_storage.append(message.strip())  # Tersimpan hanya untuk kamu
+            feedback_storage.append(message.strip())
         return redirect(url_for("page7", thanks=1))
 
-    # Tampilkan ucapan terima kasih jika ada
     thank_you_message = ''
     if request.args.get("thanks"):
         thank_you_message = '''
@@ -219,17 +239,19 @@ def page7():
 
     return render_page(f'''
         <img id="slideImage" src="/static/wle.jpg" class="centered-img">
-        <p><b>terimakasih udah mau baca sampai akhir ya!<br>
-        aku semaleman ngerjain ini be harusnya aku buat laprak cuman
-        gampang deh besok aja bisa<br> mantan mu juga anak teknik jadi aku mau unjuk skill dikit wkwk.<br>
-        <br>tetep jaga kesehatanmu ya, vitamin nya jangan lupa diminum
-        <br>aku ga pernah salah kasih kamu julukan POAT <b> PRETTIEST OF ALL TIME
-        <b><br>have a nice day fighter, <b>fitriya rahmah!</b></p>
+        <p style="max-width:600px; margin:auto;">
+            <b>terima kasih udah baca sampai akhir ya!</b><br><br>
+            semalam aku ngerjain ini, padahal harusnya ngerjain laprak hehe<br>
+            tapi aku anak teknik juga, jadi mau unjuk skill dikit wkwkw<br><br>
+            jaga kesehatan ya be, minum vitaminnya jangan lupa!<br>
+            aku ga pernah salah kasih kamu julukan... <b>POAT — Prettiest of All Time 💐</b><br><br>
+            have a nice day, fighter — <b>Fitriya Rahmah!</b>
+        </p>
 
         <form method="POST">
             <div class="feedback-box">
-                <p>boleh kamu utarain ga perasaan kamu setelah lihat ini,<br>
-                aku pengen tau dong</p>
+                <p>boleh kamu utarain ga perasaan kamu setelah lihat ini?<br>
+                aku pengen tau dong 💌</p>
                 <textarea name="feeling" placeholder="tulis di sini ya be"></textarea><br><br>
                 <button type="submit">Enter</button>
             </div>
@@ -256,21 +278,15 @@ def page7():
 @app.route("/page8")
 def page8():
     return render_page('''
-        <div class="closing-box">
+        <div class="closing-box" style="max-width:600px; margin:auto;">
             <p>
-                <b>oh iya saat kita conversation malam hari kemarin kemarin,<br>
-                kamu sempat nanya kan? kenapa aku masih disini.<br><br>
-                sekalian aku mau jawab, beberapa kali aku kecewa sama kamu,<br>
-                tetapi aku masi meresponmu dengan baik bahkan ngasi kesempatan kamu untuk kesekian kali dan kalinya.</b><br><br>
-                kalo kamu bertanya kenapa?<br>
-                karna aku ingin bawa kamu keluar dari zona toxic mu be yang ngebuat watak mu jadi keras.<br><br>
-                kalo aku bertanya lagi kenapa aku lakuin itu?<br>
-                aku akan jawab bahwa aku gamau ngelihat seseorang kesesat didalam kegelepan<br>
-                yang bahkan dia aja gatau harus keluar lewat mana dan dari mana serta harus mulai dari mana.<br><br>
-                kalo kamu bertanya mengenai bagaimana perasaan aku apa?,<br>
-                apa aku sedih?, apa aku lelah? cape? mental?<br>
-                jawabannya jelas iya,
-                tapi rasanya lebih ngena kalo aku gagal dan gabisa bawa kamu keluar dari zona itu.<b><br>
+                <b>malam kemarin kamu sempat tanya kenapa aku masih bertahan di sini?</b><br><br>
+                beberapa kali aku kecewa, tapi aku tetap respon kamu baik, dan aku kasih kesempatan berkali-kali...<br><br>
+                kenapa?<br>
+                karena aku pengen bawa kamu keluar dari zona toxic yang bikin kamu keras dan susah terbuka.<br><br>
+                aku gamau lihat kamu tenggelam dalam gelap, ga tau arah, dan ga tau harus mulai dari mana...<br><br>
+                kalau kamu nanya, apa aku capek? sedih? mental lelah?<br>
+                <b>iya</b>. Tapi lebih sedih lagi kalau aku gagal bantu kamu keluar dari zona itu.
             </p>
         </div>
     ''', 8)
@@ -282,16 +298,66 @@ def page9():
         <head>
             <title>Penutup</title>
             {base_style_and_script}
+            <style>
+                .closing-box {{
+                    max-width: 600px;
+                    margin: auto;
+                    text-align: center;
+                }}
+                .big-button {{
+                    background-color: #ff7eb9;
+                    color: white;
+                    border: none;
+                    padding: 15px 30px;
+                    font-size: 18px;
+                    border-radius: 12px;
+                    cursor: pointer;
+                    margin-top: 20px;
+                    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+                }}
+            </style>
         </head>
         <body>
             {page_turn_sound}
+
+            <!-- Background music for page 9 -->
+            <audio controls>
+                    <source src="/static/love_lesson_skyline.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+
             <div class="closing-box">
                 <p>
-                    <b>makasi yaa be udah mau baca semuanya sampai akhir <br><br>
-                    <b>aku tau isinya banyak dan panjang, jujur sampe aku bingung sama program yang kubuat sendiri<br><br>
-                    kalo kamu udah baca semuanya dan mau nutup halamannya,<br>
-                    kamu bisa klik tombol di bawah ini yaa 🫶</b>
+                    <b>makasih yaa be udah baca semuanya sampai akhir 💌</b><br><br>
+                    aku tau isinya panjang banget, sampe aku bingung sendiri sama program yang aku buat haha<br><br>
+                    kalau kamu udah baca semua dan mau nutup halamannya,<br>
+                    tinggal klik tombol di bawah ini yaa 🫶
                 </p>
+
+                <p style="color:#ffdcdc; margin-top:30px;">
+                    💡 <b>Note:</b><br>
+                    oh iya be, di halaman ini lagunya beda ya 🎶<br>
+                    jadi <b>pause dulu lagu yang tadi</b>,<br>
+                    lalu <b>klik tombol play di bawah ini</b> buat putar lagu spesial Page 9 💗
+                </p>
+
+                <p style="margin-top: 40px; font-style: italic;">
+                    i'm sending u this because i want u to know how truly grateful i am<br>
+                    to have met someone as amazing as u and u mean the world to me.<br><br>
+
+                    i hope u know how glad i am to have u in my life,<br>
+                    and i wish i never have to lose u.<br><br>
+
+                    u're incredible, u make me smile and laugh so much.<br>
+                    u're my favorite destination, my home. <br><br>
+
+                    please don't be too hard on urself, because u're more than enough.<br>
+                    i love u so much <br><br>
+
+                    <b>remember fit, as long as i'm alive u'll always have someone<br>
+                    who's proud of u in everything.</b>
+                </p>
+
                 <form action="/goodbye">
                     <button type="submit" class="big-button">Selesai 💌</button>
                 </form>
