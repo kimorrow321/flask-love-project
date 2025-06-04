@@ -338,7 +338,7 @@ def page9():
                     💡 <b>Note:</b><br>
                     oh iya be, di halaman ini lagunya beda ya 🎶<br>
                     jadi <b>pause dulu lagu yang tadi</b>,<br>
-                    lalu <b>klik tombol play di bawah ini</b> buat putar lagu spesial Page 9 💗
+                    lalu <b>klik tombol play di bawah ini</b> buat putar lagu nya 🤍
                 </p>
 
                 <p style="margin-top: 40px; font-style: italic;">
@@ -355,7 +355,7 @@ def page9():
                     i love u so much <br><br>
 
                     <b>remember fit, as long as i'm alive u'll always have someone<br>
-                    who's proud of u in everything.</b>
+                    who's proud of u in everything 🤍</b>
                 </p>
 
                 <form action="/goodbye">
